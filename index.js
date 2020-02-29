@@ -7,6 +7,8 @@ let lastUpdateTime = null;
 
 app.use(cors())
 
+const port = process.env.PORT || 8080;
+
 app.get('/api/get', (req, res) => {
     res.json({
         serverRunTime,
@@ -19,6 +21,7 @@ app.get('/api/update', (req, res) => {
     res.send('ok');
 });
 
-app.listen(3000, () => {
+app.listen(port, () => {
+    console.log('server listened')
     serverRunTime = Date.now();
 });
