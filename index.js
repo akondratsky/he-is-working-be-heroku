@@ -26,7 +26,10 @@ app.get('/api/update', (req, res) => {
 app.get('/api/ipsaver', (req, res) => {
     const { name, ip } = req.query;
     if (ip) {
-        ips.name = ip;
+        ips.name = {
+            ip,
+            lastUpdateTime: new Date().toString()
+        };
         res.send('ok');
         return;
     }
@@ -36,6 +39,18 @@ app.get('/api/ipsaver', (req, res) => {
         return;
     }
     res.send(ips.name);
+});
+
+app.get('/api/ipsaver/lastUpdate', (req, res) => {
+    const { name } = req.query;
+
+    if (!ips[name]) {
+        res.status(404);
+        res.send();
+        return;
+    }
+
+    res.send(ips[name].lastUpdateTime);
 });
 
 app.listen(port, () => {
